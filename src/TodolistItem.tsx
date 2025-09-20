@@ -8,13 +8,21 @@ type TodolistItemTypes = {
 
 export const TodolistItem = ({title, tasks}: TodolistItemTypes) => {
 
-    const tasksItems = tasks.map(task => {
-        return (
-            <li>
-                <input type="checkbox" checked={task.isDone}/> <span>{task.title}</span>
-            </li>
-            )
-    })
+    const tasksList = tasks.length === 0
+        ? <span>Your tasksList is empty</span>
+        : <ul>
+            {
+                tasks.map((task: Task) => {
+                    return (
+                        <li>
+                            <input type="checkbox" checked={task.isDone}/> <span>{task.title}</span>
+                        </li>
+                    )
+                })
+            }
+        </ul>
+
+
 
     return (
         <div>
@@ -23,9 +31,7 @@ export const TodolistItem = ({title, tasks}: TodolistItemTypes) => {
                 <input/>
                 <button>+</button>
             </div>
-            <ul>
-                {tasksItems}
-            </ul>
+            {tasksList}
             <div>
                 <button>All</button>
                 <button>Active</button>
