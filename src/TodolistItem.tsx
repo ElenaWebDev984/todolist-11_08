@@ -9,7 +9,7 @@ type TodolistItemTypes = {
 export const TodolistItem = ({title, tasks}: TodolistItemTypes) => {
 
     const tasksList = tasks.length === 0
-        ? <span>Your tasksList is empty</span>
+        ? <p>Your tasksList is empty</p>
         : <ul>
             {
                 tasks.map((task: Task) => {
