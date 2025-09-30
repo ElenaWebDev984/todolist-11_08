@@ -18,10 +18,10 @@ export const App = () => {
     ])
 
     const deleteTask = (TaskId: Task['id']) => {
-        // tasks.pop()
+        // TODO 1. создаем новый стейт (иммутабельно)
         const newState = tasks.filter(t => t.id !== TaskId)
+        // TODO 2. сетаем newState
         setTasks(newState)
-        console.log(tasks)
     }
 
 
