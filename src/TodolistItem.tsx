@@ -28,6 +28,10 @@ export const TodolistItem = ({title, tasks, deleteTask, changeTodolistFilter}: T
             }
         </ul>
 
+    const changeFilterAllHandler = ()=> changeTodolistFilter('all')
+    const changeFilterActiveHandler = ()=> changeTodolistFilter('active')
+    const changeFilterCompletedHandler = ()=> changeTodolistFilter('completed')
+
 
 
     return (
@@ -39,9 +43,9 @@ export const TodolistItem = ({title, tasks, deleteTask, changeTodolistFilter}: T
             </div>
             {tasksList}
             <div>
-                <Button title='All' onClick={()=> changeTodolistFilter('all')}/>
-                <Button title='Active' onClick={()=> changeTodolistFilter('active')}/>
-                <Button title='Completed' onClick={()=> changeTodolistFilter('completed')}/>
+                <Button title='All' onClick={changeFilterAllHandler}/>
+                <Button title='Active' onClick={changeFilterActiveHandler}/>
+                <Button title='Completed' onClick={changeFilterCompletedHandler}/>
             </div>
         </div>
     );
