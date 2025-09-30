@@ -15,11 +15,12 @@ export const TodolistItem = ({title, tasks, deleteTask}: TodolistItemTypes) => {
         : <ul>
             {
                 tasks.map((task: Task) => {
+                    const deleteTaskHandler = () => deleteTask(task.id)
                     return (
                         <li key={task.id}>
                             <input type="checkbox" checked={task.isDone}/>
                             <span>{task.title}</span>
-                            <Button title={'X'} onClick={() => deleteTask(task.id)}/>
+                            <Button title={'X'} onClick={deleteTaskHandler}/>
                         </li>
                     )
                 })
