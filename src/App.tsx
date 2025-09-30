@@ -28,7 +28,7 @@ export const App = () => {
 
     // GUI
 
-    const [filter, setFilter] = useState<FilterValuesType>('active')
+    const [filter, setFilter] = useState<FilterValuesType>('all')
     const changeTodolistFilter = (filterValues: FilterValuesType) => setFilter(filterValues)
 
     const getTasksForRender = (tasks: Task[], filter: FilterValuesType) => {
