@@ -4,7 +4,7 @@ import {Button} from "./Button.tsx";
 type TodolistItemTypes = {
     title: string
     tasks: Task[]
-    deleteTask: () => void
+    deleteTask: (TaskId: Task['id']) => void
 }
 
 
@@ -19,7 +19,7 @@ export const TodolistItem = ({title, tasks, deleteTask}: TodolistItemTypes) => {
                         <li key={task.id}>
                             <input type="checkbox" checked={task.isDone}/>
                             <span>{task.title}</span>
-                            <Button title={'X'} onClick={deleteTask}/>
+                            <Button title={'X'} onClick={() => deleteTask(task.id)}/>
                         </li>
                     )
                 })
