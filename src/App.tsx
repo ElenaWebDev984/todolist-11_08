@@ -11,7 +11,7 @@ export type Task = {
 export const App = () => {
     const todolistTitle = 'What to learn'
 
-    const [tasks, setTasks] = useState([
+    const [tasks, setTasks] = useState<Task[]>([
         {id: 1, title: 'HTML', isDone: true,},
         {id: 2, title: 'JS', isDone: true,},
         {id: 3, title: 'React', isDone: false,},
