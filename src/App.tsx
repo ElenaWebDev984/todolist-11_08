@@ -31,24 +31,21 @@ export const App = () => {
     const [filter, setFilter] = useState<FilterValuesType>('all')
 
     const getTasksForRender = (tasks: Task[], filter: FilterValuesType) => {
-        switch (filter) {
-            case 'active';
-                return tasks.filter(t => !t.isDone );
-            case 'completed';
-                return tasks.filter(t => !t.isDone);
-            default:
-                return tasks
-        }
+        return filter === 'active'
+            ? tasks.filter(t => !t.isDone)
+            : filter === 'completed'
+                ? tasks.filter(t => t.isDone)
+                : tasks
     }
 
+        const tasksForRender = getTasksForRender(tasks, filter)
 
 
-
-    return (
-        <div className="app">
-            <TodolistItem title={todolistTitle}
-                          tasks={tasks}
-                          deleteTask={deleteTask}/>
-        </div>
-    )
-}
+        return (
+            <div className="app">
+                <TodolistItem title={todolistTitle}
+                              tasks={tasksForRender}
+                              deleteTask={deleteTask}/>
+            </div>
+        )
+    }
