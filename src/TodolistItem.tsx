@@ -1,14 +1,15 @@
-import {Task} from "./App.tsx";
+import {FilterValuesType, Task} from "./App.tsx";
 import {Button} from "./Button.tsx";
 
 type TodolistItemTypes = {
     title: string
     tasks: Task[]
     deleteTask: (TaskId: Task['id']) => void
+    changeTodolistFilter: (filterValues: FilterValuesType) => void
 }
 
 
-export const TodolistItem = ({title, tasks, deleteTask}: TodolistItemTypes) => {
+export const TodolistItem = ({title, tasks, deleteTask, changeTodolistFilter}: TodolistItemTypes) => {
 
     const tasksList = tasks.length === 0
         ? <p>Your tasksList is empty</p>
@@ -34,13 +35,13 @@ export const TodolistItem = ({title, tasks, deleteTask}: TodolistItemTypes) => {
             <h3>{title}</h3>
             <div>
                 <input/>
-                <Button title='+'/>
+                <Button title='+' onClick={() => {}}/>
             </div>
             {tasksList}
             <div>
-                <Button title='All'/>
-                <Button title='Active'/>
-                <Button title='Completed'/>
+                <Button title='All' onClick={()=> changeTodolistFilter('all')}/>
+                <Button title='Active' onClick={()=> changeTodolistFilter('active')}/>
+                <Button title='Completed' onClick={()=> changeTodolistFilter('completed')}/>
             </div>
         </div>
     );

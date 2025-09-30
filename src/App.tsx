@@ -2,7 +2,7 @@ import './App.css'
 import {TodolistItem} from "./TodolistItem.tsx";
 import {useState} from "react";
 
-type FilterValuesType = 'all' | 'active' | 'completed'
+export type FilterValuesType = 'all' | 'active' | 'completed'
 
 export type Task = {
     id: number
@@ -28,9 +28,11 @@ export const App = () => {
 
     // GUI
 
-    const [filter, setFilter] = useState<FilterValuesType>('all')
+    const [filter, setFilter] = useState<FilterValuesType>('active')
+    const changeTodolistFilter = (filterValues: FilterValuesType) => setFilter(filterValues)
 
     const getTasksForRender = (tasks: Task[], filter: FilterValuesType) => {
+
         return filter === 'active'
             ? tasks.filter(t => !t.isDone)
             : filter === 'completed'
@@ -45,7 +47,8 @@ export const App = () => {
             <div className="app">
                 <TodolistItem title={todolistTitle}
                               tasks={tasksForRender}
-                              deleteTask={deleteTask}/>
+                              deleteTask={deleteTask}
+                changeTodolistFilter={changeTodolistFilter}/>
             </div>
         )
     }
