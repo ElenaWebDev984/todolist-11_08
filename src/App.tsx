@@ -53,15 +53,16 @@ export const App = () => {
                 : tasks
     }
 
-        const tasksForRender = getTasksForRender(tasks, filter)
+    const tasksForRender = getTasksForRender(tasks, filter)
 
 
-        return (
-            <div className="app">
-                <TodolistItem title={todolistTitle}
-                              tasks={tasksForRender}
-                              deleteTask={deleteTask}
-                changeTodolistFilter={changeTodolistFilter}/>
-            </div>
-        )
-    }
+    return (
+        <div className="app">
+            <TodolistItem title={todolistTitle}
+                          tasks={tasksForRender}
+                          deleteTask={deleteTask}
+                          changeTodolistFilter={changeTodolistFilter}
+                          createTask={createTask}/>
+        </div>
+    )
+}
