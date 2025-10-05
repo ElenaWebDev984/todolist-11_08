@@ -1,6 +1,6 @@
 import {FilterValuesType, Task} from "./App.tsx";
 import {Button} from "./Button.tsx";
-import {useState} from "react";
+import {useState, KeyboardEvent, ChangeEvent} from "react";
 
 
 type TodolistItemTypes = {
@@ -37,6 +37,17 @@ export const TodolistItem = ({title, tasks, deleteTask, changeTodolistFilter, cr
     const changeFilterActiveHandler = ()=> changeTodolistFilter('active')
     const changeFilterCompletedHandler = ()=> changeTodolistFilter('completed')
     const maxTitleLength = 15
+    const createTaskHandler = () => {
+        createTask(itemTitle)
+        setItemTitle('')
+    }
+    const onKeyDownCreateTaskHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter' && itemTitle.length <= maxTitleLength) {
+            createTaskHandler()
+        }
+    }
+    const onChangeTitleHandler = (e: ChangeEvent<HTMLInputElement>) => setItemTitle(e.currentTarget.value)
+
 
 
 
@@ -45,12 +56,14 @@ export const TodolistItem = ({title, tasks, deleteTask, changeTodolistFilter, cr
             <h3>{title}</h3>
             <div>
                 <input value={itemTitle}
-                       onChange={(e) => setItemTitle(e.currentTarget.value)}
+                       onChange={onChangeTitleHandler}
                        placeholder={`Max ${maxTitleLength} characters`}
+                       onKeyDown={onKeyDownCreateTaskHandler}
                 />
-                <Button isDisabled={itemTitle.length > maxTitleLength} title='+' onClick={() => {
-
-                }}/>
+                <Button isDisabled={itemTitle.length > maxTitleLength}
+                        title='+'
+                        onClick={createTaskHandler}
+                />
                 {itemTitle && itemTitle.length < maxTitleLength && <div>Rest {maxTitleLength - itemTitle.length} characters</div>}
                 {itemTitle && itemTitle.length > maxTitleLength && <div style={{color: 'red'}}>Title is too long</div>}
             </div>
