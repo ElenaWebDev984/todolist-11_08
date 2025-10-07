@@ -10,6 +10,7 @@ type TodolistItemTypes = {
     changeTodolistFilter: (filterValues: FilterValuesType) => void
     createTask: (title: Task['title']) => void
     changeTaskStatus: (TaskId: Task['id'], newTaskStatus: Task['isDone']) => void
+    filter: FilterValuesType
 }
 
 
@@ -19,7 +20,8 @@ export const TodolistItem = ({
                                  deleteTask,
                                  changeTodolistFilter,
                                  createTask,
-                                 changeTaskStatus
+                                 changeTaskStatus,
+                                 filter
                              }: TodolistItemTypes) => {
 
     const [itemTitle, setItemTitle] = useState<string>("")
@@ -80,9 +82,18 @@ export const TodolistItem = ({
             </div>
             {tasksList}
             <div>
-                <Button title='All' onClick={changeFilterAllHandler}/>
-                <Button title='Active' onClick={changeFilterActiveHandler}/>
-                <Button title='Completed' onClick={changeFilterCompletedHandler}/>
+                <Button title='All'
+                        onClick={changeFilterAllHandler}
+                        classes={filter === 'all' ? 'filter-btn-active' : ''}
+                />
+                <Button title='Active'
+                        onClick={changeFilterActiveHandler}
+                        classes={filter === 'active' ? 'filter-btn-active' : ''}
+                />
+                <Button title='Completed'
+                        onClick={changeFilterCompletedHandler}
+                        classes={filter === 'completed' ? 'filter-btn-active' : ''}
+                />
             </div>
         </div>
     );
