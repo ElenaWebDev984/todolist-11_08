@@ -22,3 +22,8 @@
     border: 2px solid #228787;
     border-radius: 3px;
 }
+
+.inputError {
+    border: 2px solid red;
+    outline: none;
+}

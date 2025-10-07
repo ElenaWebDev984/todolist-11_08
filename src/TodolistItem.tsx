@@ -25,6 +25,7 @@ export const TodolistItem = ({
                              }: TodolistItemTypes) => {
 
     const [itemTitle, setItemTitle] = useState<string>("")
+    const [error, setError] = useState(false)
 
     const tasksList = tasks.length === 0
         ? <p>Your tasksList is empty</p>
@@ -52,7 +53,12 @@ export const TodolistItem = ({
     const changeFilterCompletedHandler = () => changeTodolistFilter('completed')
     const maxTitleLength = 15
     const createTaskHandler = () => {
-        createTask(itemTitle)
+        const trimmedTitle = itemTitle.trim()
+        if(trimmedTitle !== '') {
+            createTask(itemTitle)
+        } else {
+            setError(true)
+        }
         setItemTitle('')
     }
     const onKeyDownCreateTaskHandler = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -60,7 +66,10 @@ export const TodolistItem = ({
             createTaskHandler()
         }
     }
-    const onChangeTitleHandler = (e: ChangeEvent<HTMLInputElement>) => setItemTitle(e.currentTarget.value)
+    const onChangeTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setError(false)
+        setItemTitle(e.currentTarget.value)
+    }
 
 
     return (
@@ -71,14 +80,16 @@ export const TodolistItem = ({
                        onChange={onChangeTitleHandler}
                        placeholder={`Max ${maxTitleLength} characters`}
                        onKeyDown={onKeyDownCreateTaskHandler}
+                       className={error ? 'inputError' : ''}
                 />
-                <Button isDisabled={itemTitle.length > maxTitleLength}
+                <Button isDisabled={itemTitle.length > maxTitleLength || error}
                         title='+'
                         onClick={createTaskHandler}
                 />
                 {itemTitle && itemTitle.length < maxTitleLength &&
                     <div>Rest {maxTitleLength - itemTitle.length} characters</div>}
                 {itemTitle && itemTitle.length > maxTitleLength && <div style={{color: 'red'}}>Title is too long</div>}
+                {error && <div style={{color: 'red'}}>Title is required</div>}
             </div>
             {tasksList}
             <div>
