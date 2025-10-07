@@ -9,10 +9,18 @@ type TodolistItemTypes = {
     deleteTask: (TaskId: Task['id']) => void
     changeTodolistFilter: (filterValues: FilterValuesType) => void
     createTask: (title: Task['title']) => void
+    changeTaskStatus: (TaskId: Task['id'], newTaskStatus: Task['isDone']) => void
 }
 
 
-export const TodolistItem = ({title, tasks, deleteTask, changeTodolistFilter, createTask}: TodolistItemTypes) => {
+export const TodolistItem = ({
+                                 title,
+                                 tasks,
+                                 deleteTask,
+                                 changeTodolistFilter,
+                                 createTask,
+                                 changeTaskStatus
+                             }: TodolistItemTypes) => {
 
     const [itemTitle, setItemTitle] = useState<string>("")
 
@@ -22,9 +30,13 @@ export const TodolistItem = ({title, tasks, deleteTask, changeTodolistFilter, cr
             {
                 tasks.map((task: Task) => {
                     const deleteTaskHandler = () => deleteTask(task.id)
+                    const changeTaskStatusHandler = (event: ChangeEvent<HTMLInputElement>) => changeTaskStatus(task.id, event.currentTarget.checked)
                     return (
                         <li key={task.id}>
-                            <input type="checkbox" checked={task.isDone}/>
+                            <input type="checkbox"
+                                   checked={task.isDone}
+                                   onChange={changeTaskStatusHandler}
+                            />
                             <span>{task.title}</span>
                             <Button title={'X'} onClick={deleteTaskHandler}/>
                         </li>
@@ -33,9 +45,9 @@ export const TodolistItem = ({title, tasks, deleteTask, changeTodolistFilter, cr
             }
         </ul>
 
-    const changeFilterAllHandler = ()=> changeTodolistFilter('all')
-    const changeFilterActiveHandler = ()=> changeTodolistFilter('active')
-    const changeFilterCompletedHandler = ()=> changeTodolistFilter('completed')
+    const changeFilterAllHandler = () => changeTodolistFilter('all')
+    const changeFilterActiveHandler = () => changeTodolistFilter('active')
+    const changeFilterCompletedHandler = () => changeTodolistFilter('completed')
     const maxTitleLength = 15
     const createTaskHandler = () => {
         createTask(itemTitle)
@@ -47,8 +59,6 @@ export const TodolistItem = ({title, tasks, deleteTask, changeTodolistFilter, cr
         }
     }
     const onChangeTitleHandler = (e: ChangeEvent<HTMLInputElement>) => setItemTitle(e.currentTarget.value)
-
-
 
 
     return (
@@ -64,7 +74,8 @@ export const TodolistItem = ({title, tasks, deleteTask, changeTodolistFilter, cr
                         title='+'
                         onClick={createTaskHandler}
                 />
-                {itemTitle && itemTitle.length < maxTitleLength && <div>Rest {maxTitleLength - itemTitle.length} characters</div>}
+                {itemTitle && itemTitle.length < maxTitleLength &&
+                    <div>Rest {maxTitleLength - itemTitle.length} characters</div>}
                 {itemTitle && itemTitle.length > maxTitleLength && <div style={{color: 'red'}}>Title is too long</div>}
             </div>
             {tasksList}

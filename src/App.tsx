@@ -39,6 +39,11 @@ export const App = () => {
         setTasks(newState)
     }
 
+    const changeTaskStatus = (TaskId: Task['id'], newTaskStatus: Task['isDone']) => {
+        const newState = tasks.map(t => t.id !== TaskId ? {...t, isDone: newTaskStatus } : t)
+        setTasks(newState)
+    }
+
     // GUI
 
     const [filter, setFilter] = useState<FilterValuesType>('all')
@@ -62,7 +67,8 @@ export const App = () => {
                           tasks={tasksForRender}
                           deleteTask={deleteTask}
                           changeTodolistFilter={changeTodolistFilter}
-                          createTask={createTask}/>
+                          createTask={createTask}
+                          changeTaskStatus={changeTaskStatus}/>
         </div>
     )
 }
