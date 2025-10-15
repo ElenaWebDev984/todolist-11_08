@@ -1,15 +1,16 @@
-import {FilterValuesType, Task} from "./App.tsx";
+
 import {Button} from "./Button.tsx";
 import {useState, KeyboardEvent, ChangeEvent} from "react";
+import {FilterValuesType, TaskType} from "./types.ts";
 
 
 type TodolistItemTypes = {
     title: string
-    tasks: Task[]
-    deleteTask: (TaskId: Task['id']) => void
+    tasks: TaskType[]
+    deleteTask: (TaskId: TaskType['id']) => void
     changeTodolistFilter: (filterValues: FilterValuesType) => void
-    createTask: (title: Task['title']) => void
-    changeTaskStatus: (TaskId: Task['id'], newTaskStatus: Task['isDone']) => void
+    createTask: (title: TaskType['title']) => void
+    changeTaskStatus: (TaskId: TaskType['id'], newTaskStatus: TaskType['isDone']) => void
     filter: FilterValuesType
 }
 
@@ -31,7 +32,7 @@ export const TodolistItem = ({
         ? <p>Your tasksList is empty</p>
         : <ul>
             {
-                tasks.map((task: Task) => {
+                tasks.map((task: TaskType) => {
                     const deleteTaskHandler = () => deleteTask(task.id)
                     const changeTaskStatusHandler = (event: ChangeEvent<HTMLInputElement>) => changeTaskStatus(task.id, event.currentTarget.checked)
                     return (
