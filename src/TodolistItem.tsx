@@ -1,17 +1,18 @@
-
 import {Button} from "./Button.tsx";
 import {useState, KeyboardEvent, ChangeEvent} from "react";
-import {FilterValuesType, TaskType} from "./types.ts";
+import {FilterValuesType, TaskType, TodolistType} from "./types.ts";
 
 
 type TodolistItemTypes = {
+    id: string
     title: string
     tasks: TaskType[]
-    deleteTask: (TaskId: TaskType['id']) => void
-    changeTodolistFilter: (filterValues: FilterValuesType) => void
-    createTask: (title: TaskType['title']) => void
-    changeTaskStatus: (TaskId: TaskType['id'], newTaskStatus: TaskType['isDone']) => void
     filter: FilterValuesType
+    deleteTodolist: (todolistId: TodolistType['id']) => void
+    deleteTask: (TaskId: TaskType['id'], todolistId: TodolistType['id']) => void
+    changeTodolistFilter: (filterValues: FilterValuesType, todolistId: TodolistType['id']) => void
+    createTask: (title: TaskType['title'], todolistId: TodolistType['id']) => void
+    changeTaskStatus: (TaskId: TaskType['id'], newTaskStatus: TaskType['isDone'], todolistId: TodolistType['id']) => void
 }
 
 
@@ -55,7 +56,7 @@ export const TodolistItem = ({
     const maxTitleLength = 15
     const createTaskHandler = () => {
         const trimmedTitle = itemTitle.trim()
-        if(trimmedTitle !== '') {
+        if (trimmedTitle !== '') {
             createTask(itemTitle)
         } else {
             setError(true)

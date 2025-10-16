@@ -2,6 +2,8 @@ import './App.css'
 import {useState} from "react";
 import {v1} from 'uuid'
 import {FilterValuesType, TasksStateType, TaskType, TodolistType} from "./types.ts";
+import {getTasksForRender} from "./utilities.ts";
+import {TodolistItem} from "./TodolistItem.tsx";
 
 
 export const App = () => {
@@ -30,8 +32,10 @@ export const App = () => {
 
     const deleteTask = (taskId: TaskType['id'], todolistId: TodolistType['id']) => {
         // TODO 1. создаем новый стейт (иммутабельно)
-        const newState = {...tasks,
-            [todolistId]: tasks[todolistId].filter(t => t.id !== taskId)}
+        const newState = {
+            ...tasks,
+            [todolistId]: tasks[todolistId].filter(t => t.id !== taskId)
+        }
         // TODO 2. сетаем newState
         setTasks(newState)
     }
@@ -43,15 +47,19 @@ export const App = () => {
             isDone: false,
         }
         // TODO 1. создаем новый стейт (иммутабельно)
-        const newState = {...tasks,
-            [todolistId]: [...tasks[todolistId], newTask]}
+        const newState = {
+            ...tasks,
+            [todolistId]: [...tasks[todolistId], newTask]
+        }
         // TODO 2. сетаем newState
         setTasks(newState)
     }
 
     const changeTaskStatus = (taskId: TaskType['id'], newTaskStatus: TaskType['isDone'], todolistId: TodolistType['id']) => {
-        const newState = {...tasks,
-            [todolistId]: tasks[todolistId].map(t => t.id === taskId ? {...t, isDone: newTaskStatus} : t)}
+        const newState = {
+            ...tasks,
+            [todolistId]: tasks[todolistId].map(t => t.id === taskId ? {...t, isDone: newTaskStatus} : t)
+        }
         setTasks(newState)
     }
 
@@ -72,18 +80,25 @@ export const App = () => {
         setTodolists(newState)
     }
 
-    const tasksForRender = getTasksForRender(tasks, filter)
-
+    const todolistComponents = todolists.map(tl => {
+        return (
+            <TodolistItem key={tl.id}
+                          id={tl.id}
+                          title={tl.title}
+                          filter={tl.filter}
+                          tasks={getTasksForRender(tasks[tl.id], tl.filter)}
+                          deleteTodolist={deleteTodolist}
+                          deleteTask={deleteTask}
+                          createTask={createTask}
+                          changeTodolistFilter={changeTodolistFilter}
+                          changeTaskStatus={changeTaskStatus}
+            />
+        )
+    })
 
     return (
-        <div className="app">
-            <TodolistItem title={todolistTitle}
-                          tasks={tasksForRender}
-                          deleteTask={deleteTask}
-                          changeTodolistFilter={changeTodolistFilter}
-                          createTask={createTask}
-                          changeTaskStatus={changeTaskStatus}
-                          filter={filter}/>
-        </div>
+    <div className='app'>
+        {todolistComponents}
+    </div>
     )
 }
