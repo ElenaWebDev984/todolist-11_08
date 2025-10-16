@@ -17,13 +17,15 @@ type TodolistItemTypes = {
 
 
 export const TodolistItem = ({
+                                 id,
                                  title,
                                  tasks,
+                                 filter,
+                                 deleteTodolist,
                                  deleteTask,
                                  changeTodolistFilter,
                                  createTask,
                                  changeTaskStatus,
-                                 filter
                              }: TodolistItemTypes) => {
 
     const [itemTitle, setItemTitle] = useState<string>("")
@@ -34,8 +36,8 @@ export const TodolistItem = ({
         : <ul>
             {
                 tasks.map((task: TaskType) => {
-                    const deleteTaskHandler = () => deleteTask(task.id)
-                    const changeTaskStatusHandler = (event: ChangeEvent<HTMLInputElement>) => changeTaskStatus(task.id, event.currentTarget.checked)
+                    const deleteTaskHandler = () => deleteTask(task.id, id)
+                    const changeTaskStatusHandler = (event: ChangeEvent<HTMLInputElement>) => changeTaskStatus(task.id, event.currentTarget.checked,id)
                     return (
                         <li key={task.id}>
                             <input type="checkbox"
@@ -50,14 +52,14 @@ export const TodolistItem = ({
             }
         </ul>
 
-    const changeFilterAllHandler = () => changeTodolistFilter('all')
-    const changeFilterActiveHandler = () => changeTodolistFilter('active')
-    const changeFilterCompletedHandler = () => changeTodolistFilter('completed')
+    const changeFilterAllHandler = () => changeTodolistFilter('all', id)
+    const changeFilterActiveHandler = () => changeTodolistFilter('active', id)
+    const changeFilterCompletedHandler = () => changeTodolistFilter('completed', id)
     const maxTitleLength = 15
     const createTaskHandler = () => {
         const trimmedTitle = itemTitle.trim()
         if (trimmedTitle !== '') {
-            createTask(itemTitle)
+            createTask(itemTitle, id)
         } else {
             setError(true)
         }
@@ -76,7 +78,10 @@ export const TodolistItem = ({
 
     return (
         <div>
-            <h3>{title}</h3>
+            <h3>
+                {title}
+                <Button title={'X'} onClick={() => deleteTodolist(id)}/>
+            </h3>
             <div>
                 <input value={itemTitle}
                        onChange={onChangeTitleHandler}
