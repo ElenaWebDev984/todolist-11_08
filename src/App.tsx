@@ -55,6 +55,14 @@ export const App = () => {
         setTasks(newState)
     }
 
+    const deleteTodolist = (todolistId: TodolistType['id']) => {
+        // TODO 1. создаем новый стейт (иммутабельно)
+        const newState = todolists.filter(tl => tl.id !== todolistId)
+        // TODO 2. сетаем newState
+        setTodolists(newState)
+        delete tasks[todolistId]
+    }
+
     // GUI
 
     const changeTodolistFilter = (filter: FilterValuesType, todolistId: TodolistType['id']) => {
